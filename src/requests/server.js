@@ -1,8 +1,15 @@
 import axios from 'axios'
-const API_URL = process.env.REACT_APP_THEME_API_URL + 'auth/create-url-reset-password';
 
-export default async function requestPassword(email: any) {
-    const res = await axios.get(API_URL, { params: { email: email } });
+const requestPassword = async (email: any) => {
+    const res = await axios.get(process.env.REACT_APP_THEME_API_URL + 'auth/create-url-reset-password', { params: { email: email } });
     return res;
 }
 
+
+const updatedPassword = async (password: any, password_confirm: any, token: any) => {
+    const res = await axios.post(process.env.REACT_APP_THEME_API_URL + 'auth/reset-password', { params: { password: password, password_confirm: password_confirm, token: token } });
+    return res;
+}
+
+
+export { requestPassword, updatedPassword }

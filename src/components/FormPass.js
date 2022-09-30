@@ -1,14 +1,11 @@
-import { useState } from 'react';
-import requestPassword from '../requests/server';
-import { useForm } from "react-hook-form";
+import React, { useState } from 'react';
+import { requestPassword } from '../requests/server';
 
-const [ending, setEnding] = useState(false);
 const FormPass = () => {
+  const [ending, setEnding] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const [endMessage, setEndMessage] = useState('');
-
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,21 +18,10 @@ const FormPass = () => {
     console.log(status.data.Success);
   };
 
-
-  // function onSubmit(data) {
-  //   //const email = data.target.elements.email.value;
-  //   // return promise that resolves after 2 seconds
-  //   return new Promise(resolve => {
-  //     setTimeout(() => {
-  //       resolve();
-  //     }, 2000);
-  //   });
-  // }
-
   return (
-    
-      {ending 
-        ? <form id="register-form" className="form" method="post" onSubmit={handleSubmit} >
+    <>
+      {!ending ? (
+        <form id="register-form" className="form" method="post" onSubmit={handleSubmit} >
           <div className="form-group ">
             <div className="input-group">
               <span className="input-group-addon"><i className="glyphicon glyphicon-envelope color-blue"></i></span>
@@ -46,23 +32,20 @@ const FormPass = () => {
           <div className="form-group">
             {/* <input name="recover-submit" className="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit" /> */}
             <button disabled={loading} className="btn btn-lg btn-primary btn-block">
-              Reset Password
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
-              {loading && <span className="spinner-border text-primary"></span>}
+              Reset Password &nbsp;
+              {loading && <i className="fa fa-circle-o-notch fa-spin"></i>}
             </button>
           </div>
-
-
-
-
-          <input type="hidden" className="hide" name="token" id="token" value="" />
         </form>
-
-      :
-
-        <h3>{endMessage}</h3>
+      ) : (
+        <>
+          <h3>{endMessage}</h3>
+          <button onClick={() => setEnding(false)} className="btn btn-lg btn-primary btn-block">
+            Go Back &nbsp;
+          </button>
+        </>
+      )}
+    </>
   )
 };
 
